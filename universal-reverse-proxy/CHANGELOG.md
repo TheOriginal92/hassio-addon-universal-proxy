@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.3
+
+- Fixed root page route links to work correctly behind Home Assistant Ingress base paths
+
 ## 0.2.2
 
 - Fixed startup error by creating the index output directory before writing `index.html`

@@ -28,6 +28,19 @@ cat > "$INDEX_FILE" <<EOF
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Universal Reverse Proxy</title>
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				var basePath = window.location.pathname;
+				if (!basePath.endsWith('/')) {
+					basePath += '/';
+				}
+
+				document.querySelectorAll('a[data-route]').forEach(function (link) {
+					var route = link.getAttribute('data-route').replace(/^\/+/, '');
+					link.href = basePath + route + '/';
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<h1>Universal Reverse Proxy</h1>
@@ -69,7 +82,8 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 		exit 1
 	fi
 
-	printf '      <li><a href="%s/">%s/</a> → %s</li>\n' "$path" "$path" "$target_url" >> "$INDEX_FILE"
+	route_name="${path#/}"
+	printf '      <li><a href="#" data-route="%s">%s/</a> → %s</li>\n' "$route_name" "$path" "$target_url" >> "$INDEX_FILE"
 
 	cat >> "$ROUTES_FILE" <<EOF
 				location = ${path} {
