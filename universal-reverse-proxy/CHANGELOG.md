@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.8
+
+- Fixed evcc WebSocket regression (`/ws` returning 426) by restoring compatible `Host` forwarding and conditional `Connection` upgrade handling
+
 ## 0.2.7
 
 - Fixed OPNsense-style UI rendering behind subpaths by disabling upstream compression for rewriteable responses
