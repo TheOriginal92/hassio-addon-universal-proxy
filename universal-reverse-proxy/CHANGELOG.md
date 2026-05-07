@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2
+
+- Fixed startup error by creating the index output directory before writing `index.html`
+
 ## 0.2.1
 
 - Added a root landing page that lists all configured route links

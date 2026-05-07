@@ -19,6 +19,8 @@ fi
 
 : > "$ROUTES_FILE"
 
+mkdir -p "$(dirname "$INDEX_FILE")"
+
 cat > "$INDEX_FILE" <<EOF
 <!doctype html>
 <html>
