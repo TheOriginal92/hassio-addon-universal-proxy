@@ -1,10 +1,28 @@
-# Home Assistant Add-on: evcc (Proxy)
+# Home Assistant Add-on: Universal Reverse Proxy
 
-**evcc-proxy is a reverse proxy home assistant app (add-on) for externally hosted evcc instances (it does not run evcc itself).**
+This add-on provides a Home Assistant Ingress reverse proxy for externally hosted web apps.
 
-It is a simple reverse proxy that embeds an externally hosted [evcc](https://evcc.io) instance into the Home Assistant sidebar via Ingress.
+It does **not** run upstream applications itself. It only proxies them.
 
-## About
+## Features
 
-[evcc](https://evcc.io) is an EV charge controller with PV integration.
-This add-on allows you to run evcc outside of Home Assistant (e.g. on a dedicated server, NAS, or Raspberry Pi) while still accessing the evcc UI conveniently from the HA sidebar.
+- Multiple uplinks (targets) via subpaths
+- Single Ingress entry point
+- WebSocket forwarding support
+- Compatible with external apps like evcc, router UIs, NAS dashboards, and more
+
+## Configuration format
+
+Configure `routes` as a list of strings:
+
+`/subpath|http://target-host:port`
+
+Example:
+
+```yaml
+routes:
+	- /evcc|http://192.168.1.50:7070
+	- /router|http://192.168.1.1
+```
+
+Then add sidebar links to the desired subpaths (for example `/api/hassio_ingress/<ingress_token>/evcc/`).

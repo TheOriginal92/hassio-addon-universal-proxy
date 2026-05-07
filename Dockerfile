@@ -1,6 +1,6 @@
 FROM ghcr.io/hassio-addons/base:15.0.8
 
-RUN apk add --no-cache nginx gettext curl
+RUN apk add --no-cache nginx gettext curl jq
 
 COPY nginx.conf.gtpl /etc/nginx/nginx.conf.gtpl
 COPY entrypoint.sh /entrypoint.sh

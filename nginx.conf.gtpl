@@ -29,9 +29,15 @@ http {
         listen 8099;
         server_name _;
 
+        include /etc/nginx/routes.conf;
+
+        location = / {
+            default_type text/plain;
+            return 200 "Universal reverse proxy is running. Open configured subpaths (for example /evcc/).\n";
+        }
+
         location / {
-            proxy_pass ${EVCC_URL};
-            sub_filter_once off;
+            return 404;
         }
     }
 }

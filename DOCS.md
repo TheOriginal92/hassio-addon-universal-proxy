@@ -1,37 +1,46 @@
-# evcc (Proxy) — Documentation
+# Universal Reverse Proxy — Documentation
 
-**evcc-proxy is a reverse proxy home assistant app (add-on) for externally hosted evcc instances (it does not run evcc itself).**
+This add-on is a Home Assistant Ingress reverse proxy for externally hosted web applications.
+It does not run upstream applications itself.
 
 ## Prerequisites
 
-- A running evcc instance reachable from your Home Assistant host (same network or via static route).
-- The evcc web UI is accessible at a known URL, e.g. `http://192.168.1.50:7070`.
+- Home Assistant host can reach each upstream service directly.
+- Each upstream web UI is reachable at a known URL (e.g. `http://192.168.1.50:7070`).
 
 ## Configuration
 
 | Option | Required | Description |
 |--------|----------|-------------|
-| `evcc-url` | yes | Full URL of your external evcc instance, e.g. `http://192.168.1.50:7070` |
+| `routes` | yes | List of route mappings in the format `/subpath|http://target-host:port` |
 
 **Example:**
 
 ```yaml
-evcc-url: http://192.168.1.50:7070
+routes:
+	- /evcc|http://192.168.1.50:7070
+	- /router|http://192.168.1.1
 ```
 
 ## How it works
 
 The add-on runs an nginx reverse proxy inside a container.
-Home Assistant Ingress forwards requests to the proxy (port 8099), which proxies them to the configured `evcc-url`.
-Frame-blocking headers (`X-Frame-Options`, `Content-Security-Policy: frame-ancestors`) are stripped so the evcc UI can be embedded in the HA sidebar.
-WebSocket connections (used for evcc live data) are forwarded transparently.
+Home Assistant Ingress forwards requests to the proxy (port 8099).
+The proxy routes requests by subpath to the configured upstream URL.
+WebSocket connections are forwarded transparently.
+
+Route behavior:
+
+- `/evcc` redirects to `/evcc/`
+- `/evcc/*` proxies to `http://.../*`
 
 ## Firewall notes
 
-Home Assistant must be able to reach the `evcc-url` directly.
-If your evcc instance has a firewall enabled, add the IP address of your HA host to the allowed list.
+Home Assistant must be able to reach each configured target URL directly.
+If upstream systems have firewalls enabled, allow the IP address of your HA host.
 
 ## Troubleshooting
 
-- **Blank/black screen**: confirm the `evcc-url` is reachable from HA and that evcc is running.
-- **502 Bad Gateway**: evcc is not reachable at the configured URL.
+- **404 on root**: open a configured subpath (for example `/evcc/`).
+- **502 Bad Gateway**: upstream target is not reachable at the configured URL.
+- **Container fails to start**: check route format, it must be `/subpath|http://host:port`.
