@@ -1,28 +1,16 @@
-# Home Assistant Add-on: Universal Reverse Proxy
+# Universal Proxy Add-ons for Home Assistant
 
-This add-on provides a Home Assistant Ingress reverse proxy for externally hosted web apps.
+This repository contains Home Assistant add-ons.
 
-It does **not** run upstream applications itself. It only proxies them.
+## Add-ons
 
-## Features
+### Universal Reverse Proxy
 
-- Multiple uplinks (targets) via subpaths
-- Single Ingress entry point
-- WebSocket forwarding support
-- Compatible with external apps like evcc, router UIs, NAS dashboards, and more
+Home Assistant Ingress reverse proxy add-on for externally hosted web apps via configurable subpaths.
 
-## Configuration format
+### Install in Home Assistant
 
-Configure `routes` as a list of strings:
-
-`/subpath|http://target-host:port`
-
-Example:
-
-```yaml
-routes:
-	- /evcc|http://192.168.1.50:7070
-	- /router|http://192.168.1.1
-```
-
-Then add sidebar links to the desired subpaths (for example `/api/hassio_ingress/<ingress_token>/evcc/`).
+1. Open **Settings → Add-ons → Add-on Store**.
+2. Click the menu (⋮) → **Repositories**.
+3. Add: `https://github.com/pvillmann/hassio-addon-universal-proxy`
+4. Find **Universal Reverse Proxy** and install it.
