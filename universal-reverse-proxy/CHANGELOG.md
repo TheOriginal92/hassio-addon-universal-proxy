@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.11
+
+- Added OPNsense compatibility fallback for root-absolute asset paths (`/ui`, `/css`, `/js`, `/themes`, `/vendor`)
+- Removed duplicate `text/html` warning source from route-level `sub_filter_types`
+
 ## 0.2.10
 
 - Scoped aggressive compatibility rewrites to `/opnsense` only
