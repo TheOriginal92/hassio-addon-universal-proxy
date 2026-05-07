@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.5
+
+- Fixed startup crash `/entrypoint.sh: line 88: 1: parameter not set` by escaping nginx backreference in generated `proxy_redirect`
+
 ## 0.2.4
 
 - Improved subpath compatibility for apps like OPNsense by rewriting root-relative redirects and common HTML URL attributes (`href`, `src`, `action`)
