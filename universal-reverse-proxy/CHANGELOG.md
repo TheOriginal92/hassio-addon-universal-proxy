@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.9
+
+- Fixed evcc websocket forwarding again by restoring always-on `Connection: upgrade` behavior
+
 ## 0.2.8
 
 - Fixed evcc WebSocket regression (`/ws` returning 426) by restoring compatible `Host` forwarding and conditional `Connection` upgrade handling
