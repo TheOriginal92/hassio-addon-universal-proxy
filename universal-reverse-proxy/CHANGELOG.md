@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.7
+
+- Fixed OPNsense-style UI rendering behind subpaths by disabling upstream compression for rewriteable responses
+- Added absolute URL redirect rewrite handling and single-quote HTML attribute rewrites
+- Removed duplicate `text/html` from `sub_filter_types` to avoid nginx warnings
+
 ## 0.2.6
 
 - Improved compatibility for subpath-hosted apps (e.g. OPNsense): base/content/css URL rewrites and cookie path rewrite

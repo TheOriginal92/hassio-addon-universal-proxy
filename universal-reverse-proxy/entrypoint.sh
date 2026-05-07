@@ -92,13 +92,18 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 
 				location ${path}/ {
 						proxy_pass ${target_url}/;
+						proxy_set_header Accept-Encoding "";
 						proxy_redirect ~^(/.*)$ ${path}\$1;
+						proxy_redirect ~^https?://[^/]+(/.*)$ ${path}\$1;
 						proxy_cookie_path / ${path}/;
-						sub_filter_types text/html text/css application/javascript;
+						sub_filter_types text/css application/javascript;
 						sub_filter '<base href="/">' '<base href="${path}/">';
 						sub_filter 'href="/' 'href="${path}/';
+						sub_filter "href='/'" "href='${path}/'";
 						sub_filter 'src="/' 'src="${path}/';
+						sub_filter "src='/'" "src='${path}/'";
 						sub_filter 'action="/' 'action="${path}/';
+						sub_filter "action='/'" "action='${path}/'";
 						sub_filter 'content="/' 'content="${path}/';
 						sub_filter 'url(/' 'url(${path}/';
 						sub_filter_once off;
