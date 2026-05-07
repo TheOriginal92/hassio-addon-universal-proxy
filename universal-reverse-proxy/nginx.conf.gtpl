@@ -32,8 +32,8 @@ http {
         include /etc/nginx/routes.conf;
 
         location = / {
-            default_type text/plain;
-            return 200 "Universal reverse proxy is running. Open configured subpaths (for example /evcc/).\n";
+            root /usr/share/nginx/html;
+            try_files /index.html =404;
         }
 
         location / {

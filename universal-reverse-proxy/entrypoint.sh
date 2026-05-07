@@ -3,6 +3,7 @@ set -eu
 
 OPTIONS_FILE="/data/options.json"
 ROUTES_FILE="/etc/nginx/routes.conf"
+INDEX_FILE="/usr/share/nginx/html/index.html"
 
 if [ ! -f "$OPTIONS_FILE" ]; then
 	echo "Missing options file: $OPTIONS_FILE"
@@ -17,6 +18,20 @@ if [ "$route_count" -le 0 ]; then
 fi
 
 : > "$ROUTES_FILE"
+
+cat > "$INDEX_FILE" <<EOF
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Universal Reverse Proxy</title>
+	</head>
+	<body>
+		<h1>Universal Reverse Proxy</h1>
+		<p>Configured routes:</p>
+		<ul>
+EOF
 
 jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 	path="${route%%|*}"
@@ -52,6 +67,8 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 		exit 1
 	fi
 
+	printf '      <li><a href="%s/">%s/</a> → %s</li>\n' "$path" "$path" "$target_url" >> "$INDEX_FILE"
+
 	cat >> "$ROUTES_FILE" <<EOF
 				location = ${path} {
 						return 302 ${path}/;
@@ -64,6 +81,12 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 
 EOF
 done
+
+cat >> "$INDEX_FILE" <<EOF
+		</ul>
+	</body>
+</html>
+EOF
 
 cp /etc/nginx/nginx.conf.gtpl /etc/nginx/nginx.conf
 
