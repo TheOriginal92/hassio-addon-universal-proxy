@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.4
+
+- Improved subpath compatibility for apps like OPNsense by rewriting root-relative redirects and common HTML URL attributes (`href`, `src`, `action`)
+
 ## 0.2.3
 
 - Fixed root page route links to work correctly behind Home Assistant Ingress base paths
