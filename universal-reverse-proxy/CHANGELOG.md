@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.12
+
+- Added OPNsense route rewrites for absolute upstream origin URLs (including protocol-relative URLs) to keep asset loading inside the proxied subpath
+
 ## 0.2.11
 
 - Added OPNsense compatibility fallback for root-absolute asset paths (`/ui`, `/css`, `/js`, `/themes`, `/vendor`)

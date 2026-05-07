@@ -82,6 +82,9 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 		exit 1
 	fi
 
+	target_origin="$(printf '%s' "$target_url" | sed 's#/*$##')"
+	target_host="$(printf '%s' "$target_origin" | sed -E 's#^https?://##')"
+
 	route_name="${path#/}"
 	printf '      <li><a href="#" data-route="%s">%s/</a> → %s</li>\n' "$route_name" "$path" "$target_url" >> "$INDEX_FILE"
 
@@ -98,6 +101,9 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 						proxy_redirect ~^https?://[^/]+(/.*)$ ${path}\$1;
 						proxy_cookie_path / ${path}/;
 						sub_filter_types text/css application/javascript;
+						sub_filter '${target_origin}/' '${path}/';
+						sub_filter '${target_origin}' '${path}';
+						sub_filter '//${target_host}/' '${path}/';
 						sub_filter '<base href="/">' '<base href="${path}/">';
 						sub_filter 'href="/' 'href="${path}/';
 						sub_filter "href='/'" "href='${path}/'";
