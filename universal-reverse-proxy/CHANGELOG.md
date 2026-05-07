@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.10
+
+- Scoped aggressive compatibility rewrites to `/opnsense` only
+- Restored minimal default proxy behavior for other routes (e.g. evcc) to avoid WebSocket regressions
+
 ## 0.2.9
 
 - Fixed evcc websocket forwarding again by restoring always-on `Connection: upgrade` behavior

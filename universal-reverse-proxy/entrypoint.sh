@@ -85,7 +85,8 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 	route_name="${path#/}"
 	printf '      <li><a href="#" data-route="%s">%s/</a> → %s</li>\n' "$route_name" "$path" "$target_url" >> "$INDEX_FILE"
 
-	cat >> "$ROUTES_FILE" <<EOF
+	if [ "$path" = "/opnsense" ]; then
+		cat >> "$ROUTES_FILE" <<EOF
 				location = ${path} {
 						return 302 ${path}/;
 				}
@@ -96,7 +97,7 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 						proxy_redirect ~^(/.*)$ ${path}\$1;
 						proxy_redirect ~^https?://[^/]+(/.*)$ ${path}\$1;
 						proxy_cookie_path / ${path}/;
-						sub_filter_types text/css application/javascript;
+						sub_filter_types text/html text/css application/javascript;
 						sub_filter '<base href="/">' '<base href="${path}/">';
 						sub_filter 'href="/' 'href="${path}/';
 						sub_filter "href='/'" "href='${path}/'";
@@ -110,6 +111,18 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 				}
 
 EOF
+	else
+		cat >> "$ROUTES_FILE" <<EOF
+				location = ${path} {
+						return 302 ${path}/;
+				}
+
+				location ${path}/ {
+						proxy_pass ${target_url}/;
+				}
+
+EOF
+	fi
 done
 
 cat >> "$INDEX_FILE" <<EOF
