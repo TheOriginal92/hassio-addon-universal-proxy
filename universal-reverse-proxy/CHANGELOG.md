@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.6
+
+- Improved compatibility for subpath-hosted apps (e.g. OPNsense): base/content/css URL rewrites and cookie path rewrite
+- Switched upstream `Host` header handling to better match backend expectations
+
 ## 0.2.5
 
 - Fixed startup crash `/entrypoint.sh: line 88: 1: parameter not set` by escaping nginx backreference in generated `proxy_redirect`
