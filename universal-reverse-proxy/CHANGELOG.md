@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+- Added a root landing page that lists all configured route links
+
 ## 0.2.0
 
 - Renamed add-on to Universal Reverse Proxy
