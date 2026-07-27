@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.14
+
+- Point repository metadata and installation instructions to the maintained TheOriginal92 fork
+
 ## 0.2.13
 
 - Apply subpath-safe redirect, cookie, and absolute URL rewrites to every configured route

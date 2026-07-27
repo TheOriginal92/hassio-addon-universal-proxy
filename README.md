@@ -12,5 +12,5 @@ Home Assistant Ingress reverse proxy add-on for externally hosted web apps via c
 
 1. Open **Settings → Add-ons → Add-on Store**.
 2. Click the menu (⋮) → **Repositories**.
-3. Add: `https://github.com/pvillmann/hassio-addon-universal-proxy`
+3. Add: `https://github.com/TheOriginal92/hassio-addon-universal-proxy`
 4. Find **Universal Reverse Proxy** and install it.
