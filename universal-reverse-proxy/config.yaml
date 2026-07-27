@@ -1,6 +1,6 @@
 ---
 name: Universal Reverse Proxy
-version: 0.2.16
+version: 0.2.17
 slug: universal_reverse_proxy
 description: Home Assistant Ingress reverse proxy add-on for externally hosted web apps via configurable subpaths (it does not run upstream apps itself)
 url: https://github.com/TheOriginal92/hassio-addon-universal-proxy

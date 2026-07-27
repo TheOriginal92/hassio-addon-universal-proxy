@@ -96,6 +96,7 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 				location ${path}/ {
 						proxy_pass ${target_url}/;
 						# Keep upstream redirects, cookies, and absolute resource URLs inside this ingress route.
+						absolute_redirect off;
 						proxy_set_header Accept-Encoding "";
 						proxy_redirect ~^(/.*)$ \$http_x_ingress_path${path}\$1;
 						proxy_redirect ~^https?://[^/]+(/.*)$ \$http_x_ingress_path${path}\$1;

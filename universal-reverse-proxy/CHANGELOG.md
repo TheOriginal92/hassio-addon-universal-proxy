@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.17
+
+- Preserve the full relative Ingress redirect path instead of exposing the internal app address
+
 ## 0.2.16
 
 - Preserve Home Assistant's Ingress token when rewriting redirects, cookies, and absolute web paths
