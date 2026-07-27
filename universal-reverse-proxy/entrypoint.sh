@@ -88,14 +88,14 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 	route_name="${path#/}"
 	printf '      <li><a href="#" data-route="%s">%s/</a> → %s</li>\n' "$route_name" "$path" "$target_url" >> "$INDEX_FILE"
 
-	if [ "$path" = "/opnsense" ]; then
-		cat >> "$ROUTES_FILE" <<EOF
+	cat >> "$ROUTES_FILE" <<EOF
 				location = ${path} {
 						return 302 ${path}/;
 				}
 
 				location ${path}/ {
 						proxy_pass ${target_url}/;
+						# Keep upstream redirects, cookies, and absolute resource URLs inside this ingress route.
 						proxy_set_header Accept-Encoding "";
 						proxy_redirect ~^(/.*)$ ${path}\$1;
 						proxy_redirect ~^https?://[^/]+(/.*)$ ${path}\$1;
@@ -113,42 +113,11 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 						sub_filter "action='/'" "action='${path}/'";
 						sub_filter 'content="/' 'content="${path}/';
 						sub_filter 'url(/' 'url(${path}/';
+						sub_filter '"/' '"${path}/';
+						sub_filter "'/" "'${path}/";
 						sub_filter_once off;
 				}
-
-				location ^~ /ui/ {
-						proxy_pass ${target_url}/ui/;
-				}
-
-				location ^~ /css/ {
-						proxy_pass ${target_url}/css/;
-				}
-
-				location ^~ /js/ {
-						proxy_pass ${target_url}/js/;
-				}
-
-				location ^~ /themes/ {
-						proxy_pass ${target_url}/themes/;
-				}
-
-				location ^~ /vendor/ {
-						proxy_pass ${target_url}/vendor/;
-				}
-
 EOF
-	else
-		cat >> "$ROUTES_FILE" <<EOF
-				location = ${path} {
-						return 302 ${path}/;
-				}
-
-				location ${path}/ {
-						proxy_pass ${target_url}/;
-				}
-
-EOF
-	fi
 done
 
 cat >> "$INDEX_FILE" <<EOF

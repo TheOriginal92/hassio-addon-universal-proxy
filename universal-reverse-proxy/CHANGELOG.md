@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.13
+
+- Apply subpath-safe redirect, cookie, and absolute URL rewrites to every configured route
+- Remove OPNsense-only global fallback routes that could send requests to the wrong upstream
+
 ## 0.2.12
 
 - Added OPNsense route rewrites for absolute upstream origin URLs (including protocol-relative URLs) to keep asset loading inside the proxied subpath
