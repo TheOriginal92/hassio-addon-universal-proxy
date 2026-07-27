@@ -101,7 +101,7 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 						proxy_redirect ~^(/.*)$ \$http_x_ingress_path${path}\$1;
 						proxy_redirect ~^https?://[^/]+(/.*)$ \$http_x_ingress_path${path}\$1;
 						proxy_cookie_path / \$http_x_ingress_path${path}/;
-						sub_filter_types text/css application/javascript;
+						sub_filter_types text/css;
 						sub_filter '${target_origin}/' '\$http_x_ingress_path${path}/';
 						sub_filter '${target_origin}' '\$http_x_ingress_path${path}';
 						sub_filter '//${target_host}/' '\$http_x_ingress_path${path}/';

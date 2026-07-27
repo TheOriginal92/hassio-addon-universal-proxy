@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.18
+
+- Stop rewriting JavaScript responses to prevent corruption of regular expressions in proxied web apps
+
 ## 0.2.17
 
 - Preserve the full relative Ingress redirect path instead of exposing the internal app address
