@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.20
+
+- Forward the upstream host, origin, referrer, and scheme for CSRF-protected application APIs
+
 ## 0.2.19
 
 - Route runtime API, XHR, and WebSocket calls through the Home Assistant Ingress prefix
