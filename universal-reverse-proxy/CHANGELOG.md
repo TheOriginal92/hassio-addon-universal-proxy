@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.21
+
+- Fix upstream scheme header generation so nginx starts correctly
+
 ## 0.2.20
 
 - Forward the upstream host, origin, referrer, and scheme for CSRF-protected application APIs

@@ -84,6 +84,7 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 
 	target_origin="$(printf '%s' "$target_url" | sed 's#/*$##')"
 	target_host="$(printf '%s' "$target_origin" | sed -E 's#^https?://##')"
+	target_scheme="$(printf '%s' "$target_origin" | sed -E 's#^(https?)://.*#\1#')"
 
 	route_name="${path#/}"
 	printf '      <li><a href="#" data-route="%s">%s/</a> → %s</li>\n' "$route_name" "$path" "$target_url" >> "$INDEX_FILE"
@@ -97,10 +98,10 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 						proxy_pass ${target_url}/;
 						# Keep upstream redirects, cookies, and absolute resource URLs inside this ingress route.
 						proxy_set_header Host \$proxy_host;
-						proxy_set_header Origin \$proxy_scheme://\$proxy_host;
-						proxy_set_header Referer \$proxy_scheme://\$proxy_host/;
+						proxy_set_header Origin ${target_origin};
+						proxy_set_header Referer ${target_origin}/;
 						proxy_set_header X-Forwarded-Host \$proxy_host;
-						proxy_set_header X-Forwarded-Proto \$proxy_scheme;
+						proxy_set_header X-Forwarded-Proto ${target_scheme};
 						absolute_redirect off;
 						proxy_set_header Accept-Encoding "";
 						proxy_redirect ~^(/.*)$ \$http_x_ingress_path${path}\$1;
