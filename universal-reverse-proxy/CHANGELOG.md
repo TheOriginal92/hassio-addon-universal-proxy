@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.16
+
+- Preserve Home Assistant's Ingress token when rewriting redirects, cookies, and absolute web paths
+
 ## 0.2.15
 
 - Keep rewritten upstream redirects relative so Home Assistant mobile apps retain the Ingress URL

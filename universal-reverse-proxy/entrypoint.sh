@@ -96,26 +96,25 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 				location ${path}/ {
 						proxy_pass ${target_url}/;
 						# Keep upstream redirects, cookies, and absolute resource URLs inside this ingress route.
-						absolute_redirect off;
 						proxy_set_header Accept-Encoding "";
-						proxy_redirect ~^(/.*)$ ${path}\$1;
-						proxy_redirect ~^https?://[^/]+(/.*)$ ${path}\$1;
-						proxy_cookie_path / ${path}/;
+						proxy_redirect ~^(/.*)$ \$http_x_ingress_path${path}\$1;
+						proxy_redirect ~^https?://[^/]+(/.*)$ \$http_x_ingress_path${path}\$1;
+						proxy_cookie_path / \$http_x_ingress_path${path}/;
 						sub_filter_types text/css application/javascript;
-						sub_filter '${target_origin}/' '${path}/';
-						sub_filter '${target_origin}' '${path}';
-						sub_filter '//${target_host}/' '${path}/';
-						sub_filter '<base href="/">' '<base href="${path}/">';
-						sub_filter 'href="/' 'href="${path}/';
-						sub_filter "href='/'" "href='${path}/'";
-						sub_filter 'src="/' 'src="${path}/';
-						sub_filter "src='/'" "src='${path}/'";
-						sub_filter 'action="/' 'action="${path}/';
-						sub_filter "action='/'" "action='${path}/'";
-						sub_filter 'content="/' 'content="${path}/';
-						sub_filter 'url(/' 'url(${path}/';
-						sub_filter '"/' '"${path}/';
-						sub_filter "'/" "'${path}/";
+						sub_filter '${target_origin}/' '\$http_x_ingress_path${path}/';
+						sub_filter '${target_origin}' '\$http_x_ingress_path${path}';
+						sub_filter '//${target_host}/' '\$http_x_ingress_path${path}/';
+						sub_filter '<base href="/">' '<base href="\$http_x_ingress_path${path}/">';
+						sub_filter 'href="/' 'href="\$http_x_ingress_path${path}/';
+						sub_filter "href='/'" "href='\$http_x_ingress_path${path}/'";
+						sub_filter 'src="/' 'src="\$http_x_ingress_path${path}/';
+						sub_filter "src='/'" "src='\$http_x_ingress_path${path}/'";
+						sub_filter 'action="/' 'action="\$http_x_ingress_path${path}/';
+						sub_filter "action='/'" "action='\$http_x_ingress_path${path}/'";
+						sub_filter 'content="/' 'content="\$http_x_ingress_path${path}/';
+						sub_filter 'url(/' 'url(\$http_x_ingress_path${path}/';
+						sub_filter '"/' '"\$http_x_ingress_path${path}/';
+						sub_filter "'/" "'\$http_x_ingress_path${path}/";
 						sub_filter_once off;
 				}
 EOF
