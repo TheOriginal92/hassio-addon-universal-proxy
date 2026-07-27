@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.15
+
+- Keep rewritten upstream redirects relative so Home Assistant mobile apps retain the Ingress URL
+
 ## 0.2.14
 
 - Point repository metadata and installation instructions to the maintained TheOriginal92 fork
