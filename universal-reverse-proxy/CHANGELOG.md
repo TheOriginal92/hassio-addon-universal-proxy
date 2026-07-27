@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.19
+
+- Route runtime API, XHR, and WebSocket calls through the Home Assistant Ingress prefix
+
 ## 0.2.18
 
 - Stop rewriting JavaScript responses to prevent corruption of regular expressions in proxied web apps

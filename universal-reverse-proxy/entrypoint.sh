@@ -116,6 +116,8 @@ jq -r '.routes[]' "$OPTIONS_FILE" | while IFS= read -r route; do
 						sub_filter 'url(/' 'url(\$http_x_ingress_path${path}/';
 						sub_filter '"/' '"\$http_x_ingress_path${path}/';
 						sub_filter "'/" "'\$http_x_ingress_path${path}/";
+						# Rewrite runtime API and WebSocket calls without modifying upstream JavaScript files.
+						sub_filter '</head>' '<script>(function(){const r="${path}",p=()=>{const i=location.pathname.indexOf(r+"/");return i<0?r:location.pathname.slice(0,i)+r},u=v=>{try{const x=new URL(v,location.href);if(x.hostname!==location.hostname||x.pathname.indexOf(p()+"/")===0)return v;x.pathname=p()+x.pathname;return x.href}catch(e){return v}};const f=window.fetch;window.fetch=function(i,n){return f.call(this,typeof i==="string"?u(i):i,n)};const o=XMLHttpRequest.prototype.open;XMLHttpRequest.prototype.open=function(m,v){return o.apply(this,[m,u(v)].concat([].slice.call(arguments,2)))};const W=window.WebSocket;window.WebSocket=function(v,q){return arguments.length>1?new W(u(v),q):new W(u(v))};window.WebSocket.prototype=W.prototype})()</script></head>';
 						sub_filter_once off;
 				}
 EOF
